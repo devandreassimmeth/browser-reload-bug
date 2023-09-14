@@ -1,0 +1,40 @@
+<ng-container
+  *ngIf="
+    {
+      exampleData: exampleData$ | async,
+      loading: loading$ | async,
+      error: error$ | async
+    } as storeData;
+    else elseStoreNotStarted
+  "
+>
+  <br />
+  Data: {{ storeData.exampleData }} <br />Loading: {{ storeData.loading }}
+  <br />Error: {{ storeData.error }}
+  <br />
+
+  <ng-container *ngIf="storeData.loading; else elseTestError">
+    <h3>Data is loading...</h3>
+  </ng-container>
+
+  <ng-template #elseTestError>
+    <ng-container *ngIf="storeData.error !== null; else elseData">
+      <h3>Error occured...</h3>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #elseData>
+    <ng-container
+      *ngIf="storeData.exampleData !== undefined; elseLoadingNotStarted"
+    >
+      <h3>Data Loaded!</h3>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #elseLoadingNotStarted>
+    <h3>Data loading not started!</h3>
+  </ng-template>
+</ng-container>
+<ng-template #elseStoreNotStarted>
+  <h3>Store not started!</h3>
+</ng-template>
